@@ -1,0 +1,199 @@
+.dnd-auth-widget {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  z-index: 10000;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  max-width: min(92vw, 520px);
+  font-family: "JetBrains Mono", "Space Mono", monospace;
+}
+
+.dnd-auth-widget--inline {
+  position: static;
+  z-index: auto;
+  max-width: none;
+  font-family: inherit;
+}
+
+.dnd-auth-widget--inline a,
+.dnd-auth-widget--inline button,
+.dnd-auth-widget--inline .dnd-auth-pill {
+  box-shadow: none;
+}
+
+.dnd-auth-widget a,
+.dnd-auth-widget button,
+.dnd-auth-pill,
+.dnd-auth-screen a,
+.dnd-auth-screen button,
+.dnd-auth-form button {
+  border: 3px solid #0a0a0a;
+  background: #ffe600;
+  color: #0a0a0a;
+  padding: 8px 11px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 #0a0a0a;
+}
+
+.dnd-auth-google {
+  background: #fff;
+  color: #0a0a0a;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dnd-auth-google::before {
+  content: "G";
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #0a0a0a;
+  background: conic-gradient(from -20deg, #4285f4 0 24%, #34a853 24% 42%, #fbbc05 42% 62%, #ea4335 62% 78%, #4285f4 78% 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.dnd-auth-widget button,
+.dnd-auth-screen button,
+.dnd-auth-form button {
+  cursor: pointer;
+}
+
+.dnd-auth-pill {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: #0a0a0a;
+  color: #ffe600;
+}
+
+.dnd-auth-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #ff6b35;
+  color: #0a0a0a;
+  font-family: "JetBrains Mono", "Space Mono", monospace;
+}
+
+.dnd-auth-screen__card {
+  width: min(720px, 100%);
+  border: 6px solid #0a0a0a;
+  background: #fff7d6;
+  padding: clamp(22px, 4vw, 44px);
+  box-shadow: 14px 14px 0 #0a0a0a;
+}
+
+.dnd-auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  color: #0a0a0a;
+  font-family: "Unbounded", sans-serif;
+  font-size: clamp(16px, 3vw, 24px);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.dnd-auth-brand img {
+  width: clamp(58px, 8vw, 86px);
+  height: clamp(58px, 8vw, 86px);
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.dnd-auth-brand strong {
+  color: transparent;
+  -webkit-text-stroke: 1.5px #0a0a0a;
+}
+
+.dnd-auth-screen h1 {
+  margin-bottom: 12px;
+  font-family: "Unbounded", sans-serif;
+  font-size: clamp(30px, 6vw, 72px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.dnd-auth-screen p {
+  margin-bottom: 18px;
+  max-width: 62ch;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.7;
+}
+
+.dnd-auth-form {
+  display: grid;
+  gap: 14px;
+}
+
+.dnd-auth-form label {
+  display: grid;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.dnd-auth-form input {
+  width: 100%;
+  border: 4px solid #0a0a0a;
+  background: white;
+  color: #0a0a0a;
+  padding: 12px;
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+}
+
+.dnd-auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dnd-auth-message {
+  min-height: 24px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .dnd-auth-widget {
+    position: static;
+    padding: 10px;
+    background: #ffe600;
+    border-bottom: 4px solid #0a0a0a;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .dnd-auth-widget--inline {
+    padding: 0;
+    border-bottom: none;
+    background: transparent;
+  }
+}

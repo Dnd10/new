@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Most Active Hiring Company | LinkedIn SQL Interview Question</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --c-yellow: #ffe500;
+      --c-green: #0ae448;
+      --c-pink: #ff2d78;
+      --c-lavender: #9d95ff;
+      --c-orange: #ff8709;
+      --c-lime: #abff84;
+      --c-cyan: #00bae2;
+      --c-ink: #0a0a0a;
+      --c-paper: #fff7d6;
+      --border: 4px solid var(--c-ink);
+      --border-thick: 6px solid var(--c-ink);
+      --font-display: "Unbounded", sans-serif;
+      --font-stamp: "Bebas Neue", sans-serif;
+      --font-mono: "Space Mono", monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-mono);
+      background: var(--c-yellow);
+      color: var(--c-ink);
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 160px 160px;
+      opacity: 0.2;
+      mix-blend-mode: color-dodge;
+      z-index: 100;
+    }
+
+    button, textarea, a { font: inherit; }
+    button, a { cursor: crosshair; }
+
+    h1, h2, h3, p, li, td, th, strong, span, a, button {
+      overflow-wrap: break-word;
+    }
+
+    .cursor-dot {
+      position: fixed;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--c-ink);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.18s, height 0.18s, background 0.18s;
+      mix-blend-mode: multiply;
+    }
+
+    .cursor-dot--large {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 229, 0, 0.55);
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      width: 100%;
+      background: var(--c-pink);
+      z-index: 9998;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 92vh;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      border-bottom: var(--border-thick);
+      background: var(--c-lime);
+    }
+
+    .hero__main {
+      position: relative;
+      z-index: 2;
+      padding: clamp(34px, 5vw, 74px);
+      border-right: var(--border-thick);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 38px;
+    }
+
+    .hero__ghost {
+      position: absolute;
+      right: -5vw;
+      bottom: -5vw;
+      font-family: var(--font-stamp);
+      font-size: clamp(150px, 28vw, 390px);
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(10, 10, 10, 0.09);
+      line-height: 0.75;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .brand__title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .brand__logo {
+      width: clamp(64px, 7vw, 92px);
+      height: clamp(64px, 7vw, 92px);
+      object-fit: contain;
+      flex: 0 0 auto;
+      filter: drop-shadow(4px 4px 0 rgba(10, 10, 10, 0.18));
+    }
+
+    .brand__mark {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(20px, 3vw, 42px);
+      text-transform: uppercase;
+      line-height: 0.92;
+    }
+
+    .brand__mark span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--c-ink);
+    }
+
+    .brand__meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .chip {
+      border: var(--border);
+      background: var(--c-ink);
+      color: var(--c-yellow);
+      font-size: clamp(9px, 1vw, 12px);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      white-space: nowrap;
+    }
+
+    .chip--pink { background: var(--c-pink); color: var(--c-ink); }
+    .chip--cyan { background: var(--c-cyan); color: var(--c-ink); }
+    .chip--yellow { background: var(--c-yellow); color: var(--c-ink); }
+
+    .hero__title {
+      position: relative;
+      z-index: 3;
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8vw, 118px);
+      font-weight: 900;
+      line-height: 0.9;
+      text-transform: uppercase;
+      max-width: 880px;
+      overflow-wrap: normal;
+      word-break: normal;
+      text-wrap: balance;
+      letter-spacing: 0;
+    }
+
+    .hero__title span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 4px var(--c-ink);
+    }
+
+    .hero__summary {
+      position: relative;
+      z-index: 3;
+      max-width: 740px;
+      border-top: var(--border);
+      padding-top: 18px;
+      font-size: clamp(13px, 1.3vw, 16px);
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    .hero__side {
+      background: var(--c-pink);
+      padding: clamp(26px, 4vw, 56px);
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scorecard {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border: var(--border-thick);
+      background: var(--c-yellow);
+    }
+
+    .scorecard__item {
+      min-height: 132px;
+      padding: 18px;
+      border-right: var(--border);
+      border-bottom: var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .scorecard__item:nth-child(2n) { border-right: none; }
+    .scorecard__item:nth-last-child(-n + 2) { border-bottom: none; }
+
+    .scorecard__label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 700;
+    }
+
+    .scorecard__value {
+      font-family: var(--font-stamp);
+      font-size: clamp(30px, 5vw, 62px);
+      line-height: 0.85;
+    }
+
+    .mini-terminal {
+      position: relative;
+      z-index: 2;
+      align-self: end;
+      border: var(--border-thick);
+      background: var(--c-ink);
+      color: var(--c-green);
+      min-height: 270px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 14px 14px 0 var(--c-yellow);
+    }
+
+    .mini-terminal pre {
+      white-space: pre-wrap;
+      font-size: clamp(12px, 1.2vw, 15px);
+      line-height: 1.55;
+    }
+
+    .mini-terminal__bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--c-yellow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-size: 11px;
+      border-bottom: 2px solid rgba(255, 229, 0, 0.5);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
+      align-items: start;
+      background: var(--c-cyan);
+      border-bottom: var(--border-thick);
+    }
+
+    .problem {
+      position: sticky;
+      top: 0;
+      min-height: 100vh;
+      padding: clamp(26px, 4vw, 56px);
+      background: var(--c-lavender);
+      border-right: var(--border-thick);
+    }
+
+    .section-title {
+      position: relative;
+      z-index: 3;
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4.5vw, 68px);
+      font-weight: 900;
+      line-height: 0.94;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    .section-title span {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--c-ink);
+    }
+
+    .problem__text {
+      font-size: clamp(13px, 1.25vw, 15px);
+      line-height: 1.8;
+      border-top: var(--border);
+      padding-top: 18px;
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+
+    .requirements {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .requirements li {
+      border: var(--border);
+      background: var(--c-paper);
+      padding: 12px 14px;
+      line-height: 1.55;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .workbench { display: grid; }
+
+    .panel {
+      position: relative;
+      overflow: hidden;
+      border-bottom: var(--border-thick);
+      padding: clamp(24px, 4vw, 52px);
+      background: var(--c-paper);
+    }
+
+    .panel:nth-child(2) { background: var(--c-yellow); }
+    .panel:nth-child(3) { background: var(--c-orange); }
+    .panel:nth-child(4) { background: var(--c-lime); }
+    .panel:nth-child(5) { background: var(--c-pink); }
+
+    .panel__head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .panel__eyebrow {
+      font-family: var(--font-stamp);
+      font-size: clamp(20px, 2.6vw, 36px);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .panel__ghost {
+      position: absolute;
+      right: -10px;
+      bottom: -18px;
+      font-family: var(--font-stamp);
+      font-size: clamp(120px, 18vw, 260px);
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(10, 10, 10, 0.08);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .schema-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .tab, .btn {
+      border: var(--border);
+      background: var(--c-yellow);
+      color: var(--c-ink);
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      transition: transform 0.15s, background 0.15s, color 0.15s;
+    }
+
+    .tab { padding: 8px 12px; }
+    .tab.is-active, .btn--dark { background: var(--c-ink); color: var(--c-yellow); }
+    .btn:hover, .tab:hover { transform: translate(-2px, -2px); background: var(--c-green); color: var(--c-ink); }
+
+    .schema-card {
+      display: none;
+      position: relative;
+      z-index: 3;
+      border: var(--border-thick);
+      background: white;
+    }
+
+    .schema-card.is-active { display: block; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      border: 3px solid var(--c-ink);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      font-size: clamp(11px, 1vw, 13px);
+      line-height: 1.45;
+    }
+
+    th {
+      background: var(--c-ink);
+      color: var(--c-yellow);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 10px;
+    }
+
+    .data-grid {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .data-box {
+      border: var(--border-thick);
+      background: white;
+      overflow: auto;
+      max-width: 100%;
+    }
+
+    .data-box__title {
+      background: var(--c-ink);
+      color: var(--c-yellow);
+      padding: 10px 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 11px;
+    }
+
+    .editor-wrap {
+      position: relative;
+      z-index: 3;
+      border: var(--border-thick);
+      background: var(--c-ink);
+      box-shadow: 12px 12px 0 var(--c-cyan);
+      overflow: hidden;
+    }
+
+    .editor-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: var(--border);
+      padding: 12px;
+      color: var(--c-yellow);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .editor-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .code-shell {
+      position: relative;
+      min-height: 280px;
+      background: #111;
+      overflow: hidden;
+    }
+
+    .code-highlight,
+    textarea {
+      width: 100%;
+      min-height: 280px;
+      padding: 22px;
+      font-size: clamp(13px, 1.25vw, 16px);
+      line-height: 1.7;
+      tab-size: 2;
+      white-space: pre;
+      font-family: var(--font-mono);
+    }
+
+    .code-highlight {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      color: #d7fbe2;
+      min-width: 100%;
+    }
+
+    textarea {
+      position: relative;
+      z-index: 2;
+      resize: vertical;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: transparent;
+      caret-color: var(--c-yellow);
+      overflow: auto;
+    }
+
+    textarea::selection { background: rgba(255, 229, 0, 0.28); }
+    .sql-keyword { color: #ffe500; font-weight: 700; }
+    .sql-function { color: #00bae2; font-weight: 700; }
+    .sql-string { color: #abff84; }
+    .sql-number { color: #ff8709; }
+    .sql-table { color: #ff2d78; font-weight: 700; }
+    .sql-column { color: #9d95ff; }
+
+    .query-result {
+      display: none;
+      border-top: var(--border);
+      background: white;
+      color: var(--c-ink);
+      padding: 14px;
+    }
+
+    .query-result.is-visible { display: block; }
+
+    .query-result__status {
+      display: inline-block;
+      margin-bottom: 12px;
+      border: var(--border);
+      background: var(--c-green);
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .query-result__status.is-error {
+      background: var(--c-pink);
+      color: var(--c-ink);
+    }
+
+    .query-result__message {
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    .query-result table {
+      display: none;
+    }
+
+    .query-result.is-correct table {
+      display: table;
+    }
+
+    .hints {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hint {
+      border: var(--border);
+      background: var(--c-paper);
+      padding: 14px;
+      display: none;
+      font-weight: 700;
+      line-height: 1.65;
+    }
+
+    .hint.is-visible { display: block; }
+
+    .solution-lock {
+      position: relative;
+      z-index: 3;
+      border: var(--border-thick);
+      background: var(--c-ink);
+      color: var(--c-yellow);
+      padding: clamp(18px, 3vw, 30px);
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .solution-lock.is-open {
+      background: white;
+      color: var(--c-ink);
+    }
+
+    .solution-code {
+      display: none;
+      margin-top: 18px;
+      border: var(--border);
+      background: #111;
+      color: var(--c-green);
+      padding: 18px;
+      overflow: auto;
+      white-space: pre;
+      line-height: 1.65;
+      font-size: 13px;
+    }
+
+    .solution-lock.is-open .solution-code { display: block; }
+
+    .explain-grid {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border: var(--border-thick);
+      background: white;
+    }
+
+    .step {
+      min-height: 210px;
+      border-right: var(--border);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .step:last-child { border-right: none; }
+
+    .step__num {
+      font-family: var(--font-stamp);
+      font-size: 58px;
+      line-height: 0.8;
+    }
+
+    .step p {
+      font-size: 13px;
+      line-height: 1.65;
+      font-weight: 700;
+    }
+
+    .related {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: var(--border-thick);
+      background: var(--c-lavender);
+    }
+
+    .related-card {
+      min-height: 230px;
+      padding: clamp(20px, 3vw, 34px);
+      border-right: var(--border-thick);
+      border-bottom: var(--border-thick);
+      color: inherit;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+      background: var(--c-yellow);
+      transition: background 0.15s, transform 0.15s;
+    }
+
+    .related-card:nth-child(2) { background: var(--c-cyan); }
+    .related-card:nth-child(3) { background: var(--c-green); border-right: none; }
+
+    .related-card:hover {
+      transform: translateY(-6px);
+      background: var(--c-pink);
+    }
+
+    .related-card__title {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2.4vw, 32px);
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .related-card__meta {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      border-top: var(--border);
+      padding-top: 12px;
+    }
+    .site-footer {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding: clamp(28px, 4vw, 54px) clamp(20px, 5vw, 72px);
+      border-top: var(--border-thick);
+      background: var(--c-pink);
+      color: var(--c-ink);
+    }
+
+    .site-footer__brand {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(20px, 3vw, 38px);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .site-footer__brand span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--c-ink);
+    }
+
+    .site-footer__links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .site-footer__links a {
+      border: 2px solid var(--c-ink);
+      color: inherit;
+      background: var(--c-yellow);
+      padding: 6px 9px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.15s, color 0.15s, transform 0.15s;
+    }
+
+    .site-footer__links a:hover {
+      background: var(--c-ink);
+      color: var(--c-yellow);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 1020px) {
+      .hero, .layout { grid-template-columns: 1fr; }
+      .hero__main, .problem {
+        border-right: none;
+        border-bottom: var(--border-thick);
+      }
+      .problem {
+        position: relative;
+        min-height: auto;
+      }
+    }
+
+    @media (min-width: 761px) {
+      .hero__title,
+      .section-title {
+        word-break: keep-all;
+      }
+
+      .hero__title {
+        font-size: clamp(44px, 6.8vw, 96px);
+      }
+
+      .section-title {
+        font-size: clamp(28px, 4vw, 58px);
+      }
+
+      .hero__title span,
+      .section-title span {
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .brand, .panel__head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      .brand__meta { justify-content: flex-start; }
+      .scorecard, .data-grid, .explain-grid, .related { grid-template-columns: 1fr; }
+      .scorecard__item, .step, .related-card { border-right: none; }
+      .hero {
+        min-height: auto;
+      }
+      .hero__title {
+        font-size: clamp(38px, 15vw, 76px);
+      }
+      .section-title {
+        font-size: clamp(30px, 12vw, 54px);
+      }
+      .panel, .problem, .hero__main, .hero__side {
+        padding: 24px 18px;
+      }
+      .mini-terminal {
+        min-height: 220px;
+        box-shadow: 8px 8px 0 var(--c-yellow);
+      }
+      .editor-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+      th, td {
+        min-width: 120px;
+      }
+      .cursor-dot {
+        display: none;
+      }
+      body {
+        cursor: auto;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .brand__mark {
+        font-size: 26px;
+      }
+      .chip, .tab, .btn {
+        font-size: 10px;
+        padding: 8px 10px;
+        letter-spacing: 0.08em;
+      }
+      .scorecard {
+        grid-template-columns: 1fr;
+      }
+      .scorecard__item:nth-child(n) {
+        border-right: none;
+        border-bottom: var(--border);
+      }
+      .scorecard__item:last-child {
+        border-bottom: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="dnd-auth.css">
+<link rel="icon" type="image/png" href="logoo.png">
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <main>
+    <section class="hero">
+      <div class="hero__main">
+        <div class="brand">
+          <a class="brand__title" href="index.html" aria-label="Digits n Data home"><img class="brand__logo" src="logoo.png" alt="" aria-hidden="true"><div class="brand__mark">SQL<br><span>Lab</span></div></a>
+          <div class="brand__meta">
+            <span class="chip">LinkedIn</span>
+            <span class="chip chip--pink">Easy</span>
+            <span class="chip chip--cyan">Group By</span>
+            <span class="chip chip--yellow">Ranking</span>
+          </div>
+        </div>
+
+        <div>
+          <h1 class="hero__title" id="heroTitle">Most Active<br><span>Hiring</span><br>Company</h1>
+          <p class="hero__summary" id="heroSummary">
+            Find the company that posted the highest number of job listings.
+          </p>
+        </div>
+        <div class="hero__ghost" aria-hidden="true">SELECT</div>
+      </div>
+
+      <aside class="hero__side">
+        <div class="scorecard" id="scorecard">
+          <div class="scorecard__item"><span class="scorecard__label">Attempts</span><strong class="scorecard__value">21K</strong></div>
+          <div class="scorecard__item"><span class="scorecard__label">Success</span><strong class="scorecard__value">54%</strong></div>
+          <div class="scorecard__item"><span class="scorecard__label">Time</span><strong class="scorecard__value">10M</strong></div>
+          <div class="scorecard__item"><span class="scorecard__label">Engine</span><strong class="scorecard__value">PG</strong></div>
+        </div>
+
+        <div class="mini-terminal" id="miniTerminal">
+          <div>
+            <div class="mini-terminal__bar"><span>query brief</span><span>ready</span></div>
+            <pre>company: linkedin
+difficulty: easy
+topics: group by, order by, limit
+goal: most active hiring company</pre>
+          </div>
+          <pre>status: waiting for your query</pre>
+        </div>
+      </aside>
+    </section>
+
+    <div class="layout">
+      <aside class="problem">
+        <h2 class="section-title" id="problemTitle">Problem<br><span>Statement</span></h2>
+        <p class="problem__text">
+          Assume you're given a table containing job postings. Write a query to find the company that has posted the highest number of job listings.
+        </p>
+        <ul class="requirements">
+          <li>Count how many job listings each company posted.</li>
+          <li>Return the company with the highest count.</li>
+          <li>Show company_id and job_count.</li>
+          <li>Use LIMIT 1 after sorting the count descending.</li>
+        </ul>
+      </aside>
+
+      <section class="workbench">
+        <article class="panel" id="schemaPanel">
+          <div class="panel__head">
+            <div>
+              <p class="panel__eyebrow">Table Schema</p>
+              <h2 class="section-title">Inspect<br><span>Table</span></h2>
+            </div>
+            <span class="chip chip--cyan">interactive</span>
+          </div>
+          <div class="schema-tabs" role="tablist" aria-label="Table schema tabs">
+            <button class="tab is-active" type="button" data-table="jobs">job_listings</button>
+          </div>
+          <div class="schema-card is-active" id="schema-jobs">
+            <table>
+              <thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>job_id</td><td>integer</td><td>Unique job posting identifier.</td></tr>
+                <tr><td>company_id</td><td>integer</td><td>Identifier for the company posting the job.</td></tr>
+                <tr><td>company_name</td><td>string</td><td>Name of the company posting the job.</td></tr>
+                <tr><td>title</td><td>string</td><td>Job listing title.</td></tr>
+                <tr><td>location</td><td>string</td><td>Job location.</td></tr>
+                <tr><td>posted_date</td><td>date</td><td>Date the job was posted.</td></tr>
+                <tr><td>salary</td><td>integer</td><td>Listed salary.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel__ghost" aria-hidden="true">JOIN</div>
+        </article>
+
+        <article class="panel" id="dataPanel">
+          <div class="panel__head">
+            <div>
+              <p class="panel__eyebrow">Sample Data</p>
+              <h2 class="section-title">Input<br><span>Output</span></h2>
+            </div>
+          </div>
+          <div class="data-grid">
+            <div class="data-box">
+              <div class="data-box__title">Sample Input: job_listings</div>
+              <table>
+                <thead><tr><th>job_id</th><th>company_id</th><th>company_name</th><th>title</th><th>location</th><th>posted_date</th><th>salary</th></tr></thead>
+                <tbody>
+                  <tr><td>101</td><td>1</td><td>ABC Corp</td><td>Data Analyst</td><td>NY</td><td>2024-01-01</td><td>70000</td></tr>
+                  <tr><td>102</td><td>1</td><td>ABC Corp</td><td>Data Scientist</td><td>SF</td><td>2024-01-05</td><td>120000</td></tr>
+                  <tr><td>103</td><td>2</td><td>XYZ Inc</td><td>Data Analyst</td><td>TX</td><td>2024-01-03</td><td>80000</td></tr>
+                  <tr><td>104</td><td>1</td><td>ABC Corp</td><td>ML Engineer</td><td>NY</td><td>2024-01-10</td><td>130000</td></tr>
+                  <tr><td>105</td><td>3</td><td>TechSoft</td><td>Analyst</td><td>CA</td><td>2024-01-02</td><td>60000</td></tr>
+                  <tr><td>106</td><td>2</td><td>XYZ Inc</td><td>Engineer</td><td>TX</td><td>2024-01-07</td><td>90000</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="data-box">
+              <div class="data-box__title">Expected Output</div>
+              <table>
+                <thead><tr><th>company_id</th><th>job_count</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>3</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel__ghost" aria-hidden="true">DATA</div>
+        </article>
+
+        <article class="panel" id="editorPanel">
+          <div class="panel__head">
+            <div>
+              <p class="panel__eyebrow">SQL Editor</p>
+              <h2 class="section-title">Run<br><span>Query</span></h2>
+            </div>
+          </div>
+          <div class="editor-wrap">
+            <div class="editor-toolbar">
+              <span>postgresql</span>
+              <div class="editor-actions">
+                <button class="btn" type="button" id="formatBtn">Format</button>
+                <button class="btn" type="button" id="runBtn">Run Query</button>
+              </div>
+            </div>
+            <div class="code-shell" id="codeShell">
+              <pre class="code-highlight" id="sqlHighlight" aria-hidden="true"></pre>
+              <textarea id="sqlEditor" spellcheck="false" aria-label="SQL editor" placeholder="Write your SQL query here..."></textarea>
+            </div>
+            <div class="query-result" id="queryResult">
+              <span class="query-result__status" id="queryStatus">Waiting for query</span>
+              <p class="query-result__message" id="queryMessage"></p>
+              <table>
+                <thead><tr><th>company_id</th><th>job_count</th></tr></thead>
+                <tbody><tr><td>1</td><td>3</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel__ghost" aria-hidden="true">RUN</div>
+        </article>
+
+        <article class="panel" id="hintsPanel">
+          <div class="panel__head">
+            <div>
+              <p class="panel__eyebrow">Hints</p>
+              <h2 class="section-title">Unlock<br><span>Clues</span></h2>
+            </div>
+            <button class="btn btn--dark" type="button" id="hintBtn">Reveal Hint</button>
+          </div>
+          <div class="hints">
+            <div class="hint is-visible">Hint 01: Group rows by company_id so every company has one group.</div>
+            <div class="hint">Hint 02: Use COUNT(*) AS job_count to count how many listings each company posted.</div>
+            <div class="hint">Hint 03: Order by job_count DESC and LIMIT 1 to return the top company.</div>
+          </div>
+          <div class="panel__ghost" aria-hidden="true">HELP</div>
+        </article>
+
+        <article class="panel" id="solutionPanel">
+          <div class="panel__head">
+            <div>
+              <p class="panel__eyebrow">Solution</p>
+              <h2 class="section-title">Locked<br><span>Answer</span></h2>
+            </div>
+          </div>
+          <div class="solution-lock" id="solutionLock">
+            <p>Solution is locked until you decide to reveal it. Try the editor first, then open this when you want the reference answer.</p>
+            <button class="btn" type="button" id="solutionBtn">Unlock Solution</button>
+            <pre class="solution-code">SELECT
+  company_id,
+  COUNT(*) AS job_count
+FROM job_listings
+GROUP BY company_id
+ORDER BY job_count DESC
+LIMIT 1;</pre>
+          </div>
+          <div class="panel__ghost" aria-hidden="true">SQL</div>
+        </article>
+
+        <article class="panel" id="explanationPanel">
+          <div class="panel__head">
+            <div>
+              <p class="panel__eyebrow">Explanation</p>
+              <h2 class="section-title">Step By<br><span>Step</span></h2>
+            </div>
+          </div>
+          <div class="explain-grid">
+            <div class="step">
+              <span class="step__num">01</span>
+              <p>Group rows by company_id so each company becomes one output group.</p>
+            </div>
+            <div class="step">
+              <span class="step__num">02</span>
+              <p>Use COUNT(*) to calculate how many job listings each company posted.</p>
+            </div>
+            <div class="step">
+              <span class="step__num">03</span>
+              <p>Sort by job_count descending and use LIMIT 1 to keep the most active hiring company.</p>
+            </div>
+          </div>
+          <div class="panel__ghost" aria-hidden="true">WHY</div>
+        </article>
+      </section>
+    </div>
+
+    <section>
+      <div class="panel">
+        <div class="panel__head">
+          <div>
+            <p class="panel__eyebrow">Related Questions</p>
+            <h2 class="section-title">Keep<br><span>Solving</span></h2>
+          </div>
+        </div>
+      </div>
+      <div class="related">
+        <a class="related-card" href="2.html">
+          <strong class="related-card__title">Previous Question</strong>
+          <span class="related-card__meta">back to 2</span>
+        </a>
+        <a class="related-card" href="4.html">
+          <strong class="related-card__title">Next Question</strong>
+          <span class="related-card__meta">continue to 4</span>
+        </a>
+        <a class="related-card" href="index.html">
+          <strong class="related-card__title">Start Over</strong>
+          <span class="related-card__meta">Digits n Data home</span>
+        </a>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="site-footer__brand">Digits<br><span>n Data</span></div>
+    <nav class="site-footer__links" aria-label="Question pages">
+      <a href="1.html">Q01</a>
+      <a href="2.html">Q02</a>
+      <a href="3.html">Q03</a>
+      <a href="4.html">Q04</a>
+      <a href="5.html">Q05</a>
+      <a href="6.html">Q06</a>
+      <a href="7.html">Q07</a>
+      <a href="8.html">Q08</a>
+      <a href="9.html">Q09</a>
+      <a href="10.html">Q10</a>
+      <a href="index.html">Home</a>
+    </nav>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger, CustomEase);
+    CustomEase.create("brutalist", "M0,0 C0.05,0 0.1,1 0.35,1 0.6,1 0.8,1 1,1");
+
+    const dot = document.getElementById("cursorDot");
+    document.addEventListener("mousemove", (event) => {
+      gsap.to(dot, {
+        x: event.clientX,
+        y: event.clientY,
+        duration: 0.1,
+        ease: "power2.out"
+      });
+    });
+
+    document.querySelectorAll("a, button, textarea").forEach((el) => {
+      el.addEventListener("mouseenter", () => dot.classList.add("cursor-dot--large"));
+      el.addEventListener("mouseleave", () => dot.classList.remove("cursor-dot--large"));
+    });
+
+    gsap.to("#scrollProgress", {
+      scaleX: 1,
+      ease: "none",
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: true
+      }
+    });
+
+    gsap.from("#heroTitle", {
+      x: -80,
+      opacity: 0,
+      duration: 0.9,
+      ease: "brutalist"
+    });
+
+    gsap.from("#heroSummary, .brand__meta .chip", {
+      y: 30,
+      opacity: 0,
+      stagger: 0.08,
+      duration: 0.7,
+      delay: 0.15,
+      ease: "power3.out"
+    });
+
+    gsap.from("#scorecard .scorecard__item, #miniTerminal", {
+      y: 46,
+      opacity: 0,
+      stagger: 0.08,
+      duration: 0.75,
+      delay: 0.25,
+      ease: "back.out(1.8)"
+    });
+
+    gsap.to(".hero__ghost", {
+      x: "-8%",
+      rotation: -3,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".hero",
+        start: "top top",
+        end: "bottom top",
+        scrub: 1.5
+      }
+    });
+
+    gsap.utils.toArray(".panel").forEach((panel) => {
+      gsap.from(panel.querySelectorAll(".panel__eyebrow, .section-title, .schema-tabs, .schema-card, .data-box, .editor-wrap, .hint, .solution-lock, .step"), {
+        opacity: 0,
+        y: 34,
+        duration: 0.7,
+        stagger: 0.06,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: panel,
+          start: "top 78%",
+          once: true
+        }
+      });
+
+      const ghost = panel.querySelector(".panel__ghost");
+      if (ghost) {
+        gsap.to(ghost, {
+          x: "-5%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: panel,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.4
+          }
+        });
+      }
+    });
+
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((item) => item.classList.remove("is-active"));
+        document.querySelectorAll(".schema-card").forEach((item) => item.classList.remove("is-active"));
+        tab.classList.add("is-active");
+        document.getElementById(`schema-${tab.dataset.table}`).classList.add("is-active");
+      });
+    });
+
+    const editor = document.getElementById("sqlEditor");
+    const highlight = document.getElementById("sqlHighlight");
+    const codeShell = document.getElementById("codeShell");
+
+    function escapeHtml(value) {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function highlightSql(value) {
+      const escaped = escapeHtml(value);
+      return escaped
+        .replace(/('(?:''|[^'])*')/g, '<span class="sql-string">$1</span>')
+        .replace(/\b(COUNT|SUM|AVG|MIN|MAX|ROUND)\b(?=\()/gi, '<span class="sql-function">$1</span>')
+        .replace(/\b(SELECT|FROM|WHERE|IN|GROUP BY|HAVING|ORDER BY|DESC|ASC|LIMIT|AND|OR|AS|DISTINCT)\b/gi, '<span class="sql-keyword">$1</span>')
+        .replace(/\b(job_listings)\b/gi, '<span class="sql-table">$1</span>')
+        .replace(/\b(job_id|company_id|company_name|title|location|posted_date|salary|job_count)\b/gi, '<span class="sql-column">$1</span>')
+        .replace(/\b(\d+)\b/g, '<span class="sql-number">$1</span>');
+    }
+
+    function syncHighlight() {
+      highlight.innerHTML = highlightSql(editor.value) + "\n";
+    }
+
+    function syncScroll() {
+      highlight.style.transform = `translate(${-editor.scrollLeft}px, ${-editor.scrollTop}px)`;
+    }
+
+    editor.addEventListener("input", syncHighlight);
+    editor.addEventListener("scroll", syncScroll);
+    syncHighlight();
+
+    const queryResult = document.getElementById("queryResult");
+    const queryStatus = document.getElementById("queryStatus");
+    const queryMessage = document.getElementById("queryMessage");
+
+    function normalizeSql(value) {
+      return value
+        .replace(/--.*$/gm, " ")
+        .replace(/\/\*[\s\S]*?\*\//g, " ")
+        .replace(/\s+/g, " ")
+        .replace(/\s*,\s*/g, ",")
+        .trim()
+        .toLowerCase();
+    }
+
+    function hasGroupedColumn(normalized, expectedColumn) {
+      const groupMatch = normalized.match(/group\s+by\s+(.+?)(?=\s+having\b|\s+order\s+by\b|\s+limit\b|;|$)/);
+      if (!groupMatch) return false;
+      const columns = groupMatch[1].split(",").map((column) => column.trim());
+      return columns.includes(expectedColumn);
+    }
+
+    function isCorrectQuery(value) {
+      const normalized = normalizeSql(value);
+      const hasTable = /\bfrom\s+job_listings\b/.test(normalized);
+      const selectsCompany = /\bselect\s+company_id\b/.test(normalized);
+      const hasJobCount = /count\s*\(\s*\*\s*\)\s+as\s+job_count/.test(normalized)
+        || /count\s*\(\s*job_id\s*\)\s+as\s+job_count/.test(normalized);
+      const ordersMostActive = /order\s+by\s+job_count\s+desc/.test(normalized)
+        || /order\s+by\s+count\s*\(\s*\*\s*\)\s+desc/.test(normalized)
+        || /order\s+by\s+count\s*\(\s*job_id\s*\)\s+desc/.test(normalized);
+      const limitsOne = /\blimit\s+1\b/.test(normalized);
+      return hasTable && selectsCompany && hasJobCount && hasGroupedColumn(normalized, "company_id") && ordersMostActive && limitsOne;
+    }
+
+    const wowSound = new Audio("Wow sound effect.mp3");
+    wowSound.preload = "auto";
+    const errorSound = new Audio("faah-sound-effect.mp3");
+    errorSound.preload = "auto";
+
+    function playWowSound() {
+      wowSound.currentTime = 0;
+      wowSound.play().catch(() => {});
+    }
+
+    function playErrorSound() {
+      errorSound.currentTime = 0;
+      errorSound.play().catch(() => {});
+    }
+
+    function randomBetween(min, max) {
+      return parseInt(Math.random() * (max - min) + min, 10);
+    }
+
+    function playCorrectBurst(event) {
+      if (typeof confetti !== "function") return;
+      const target = event.currentTarget;
+      const rect = target.getBoundingClientRect();
+      const clientX = event.clientX || rect.left + rect.width / 2;
+      const clientY = event.clientY || rect.top + rect.height / 2;
+      const direction = Math.sign((playCorrectBurst.lastX || clientX) - clientX) || 1;
+      playCorrectBurst.lastX = clientX;
+
+      confetti({
+        particleCount: randomBetween(122, 245),
+        angle: randomBetween(90, 90 + direction * 30),
+        spread: randomBetween(45, 80),
+        origin: {
+          x: clientX / window.innerWidth,
+          y: clientY / window.innerHeight
+        }
+      });
+    }
+
+    document.getElementById("runBtn").addEventListener("click", (event) => {
+      const sql = editor.value.trim();
+      queryResult.classList.add("is-visible");
+      queryResult.classList.remove("is-correct");
+      queryStatus.classList.remove("is-error");
+
+      if (!sql) {
+        queryStatus.textContent = "No query found";
+        queryStatus.classList.add("is-error");
+        queryMessage.textContent = "Write a SQL query first, then run it.";
+        playErrorSound();
+      } else if (isCorrectQuery(sql)) {
+        queryResult.classList.add("is-correct");
+        queryStatus.textContent = "Correct query - wow!";
+        queryMessage.textContent = "Your query returns the expected output.";
+        playWowSound();
+        playCorrectBurst(event);
+      } else {
+        queryStatus.textContent = "Query needs fixing";
+        queryStatus.classList.add("is-error");
+        queryMessage.textContent = "Check that you group by company_id, count jobs as job_count, order by job_count DESC, and LIMIT 1.";
+        playErrorSound();
+      }
+
+      gsap.fromTo(queryResult, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" });
+    });
+
+    document.getElementById("formatBtn").addEventListener("click", () => {
+      editor.value = editor.value
+        .replace(/\bselect\b/gi, "SELECT")
+        .replace(/\bfrom\b/gi, "FROM")
+        .replace(/\bwhere\b/gi, "WHERE")
+        .replace(/\bin\b/gi, "IN")
+        .replace(/\bgroup by\b/gi, "GROUP BY")
+        .replace(/\bhaving\b/gi, "HAVING")
+        .replace(/\border by\b/gi, "ORDER BY")
+        .replace(/\bdesc\b/gi, "DESC")
+        .replace(/\blimit\b/gi, "LIMIT")
+        .replace(/\bcount\b/gi, "COUNT")
+        .replace(/\bdistinct\b/gi, "DISTINCT")
+        .replace(/\basc\b/gi, "ASC");
+      syncHighlight();
+      gsap.fromTo(codeShell, { backgroundColor: "#262600" }, { backgroundColor: "#111111", duration: 0.45 });
+    });
+
+    const hints = Array.from(document.querySelectorAll(".hint"));
+    let hintIndex = 1;
+    document.getElementById("hintBtn").addEventListener("click", () => {
+      if (hintIndex >= hints.length) return;
+      hints[hintIndex].classList.add("is-visible");
+      gsap.from(hints[hintIndex], { opacity: 0, x: -24, duration: 0.45, ease: "power2.out" });
+      hintIndex += 1;
+    });
+
+    document.getElementById("solutionBtn").addEventListener("click", () => {
+      const lock = document.getElementById("solutionLock");
+      lock.classList.toggle("is-open");
+      document.getElementById("solutionBtn").textContent = lock.classList.contains("is-open")
+        ? "Hide Solution"
+        : "Unlock Solution";
+      if (lock.classList.contains("is-open")) {
+        gsap.from(".solution-code", { opacity: 0, y: 18, duration: 0.45, ease: "power2.out" });
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js"></script>
+  <script>window.DNDAuth && window.DNDAuth.init({ protect: true });</script></body>
+</html>
+
+
