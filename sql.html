@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digits n Data | SQL</title>
+  <link rel="icon" type="image/png" href="logoo.png">
+</head>
+<body>
+  <a class="sql-brand" href="index.html" aria-label="Digits n Data home">
+    <img src="logoo.png" alt="" aria-hidden="true">
+    <span>Digits <strong>n Data</strong></span>
+  </a>
+  <div id="cur"></div>
+
+  <div id="vb">
+    <video autoplay muted loop playsinline>
+      <source src="https://cdn.cosmos.so/3cbfd7b9-f988-469c-a838-694489832809.mp4" type="video/mp4">
+    </video>
+    <div id="vbt">
+      <div class="ghost">∞</div>
+      <div class="chip filled ichip" style="width:fit-content;margin-bottom:1.2rem">✦ interlude</div>
+      <h2 class="reveal">PRECISION<br>IS<br><span class="stroke">POETRY.</span></h2>
+      <p class="reveal d1">
+        Some things run in families quietly — not passed down on purpose,
+        just absorbed. A love of books. An ease with numbers. The feeling
+        that understanding how something works is one of life's real pleasures.
+      </p>
+      <div class="ichip reveal d3">
+        <span class="chip">✦ not inherited. just recognized.</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="gs">
+    <div class="sl">✦ illustrations via cosmos.so — scroll →</div>
+    <div class="row" id="row"></div>
+  </div>
+  <style>*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --yellow: #ffe600;
+  --orange: #ff6b35;
+  --ink: #0a0a0a;
+  --canvas: #fafaf5;
+  --mono: "JetBrains Mono", monospace;
+  --display: "Unbounded", sans-serif;
+}
+body {
+  background: var(--canvas);
+  font-family: var(--mono);
+  cursor: none;
+  overflow-x: hidden;
+}
+
+.sql-brand {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  border: 4px solid var(--ink);
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 8px 12px 8px 8px;
+  font-family: var(--display);
+  font-size: clamp(15px, 2.3vw, 22px);
+  font-weight: 900;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.sql-brand img {
+  width: clamp(58px, 7vw, 84px);
+  height: clamp(58px, 7vw, 84px);
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.sql-brand strong {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ink);
+}
+
+#cur {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  transform: translate(-50%, -50%);
+  transition: width 0.15s, height 0.15s;
+}
+#cur::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+#cur::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--ink);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+body.click #cur {
+  width: 12px;
+  height: 12px;
+}
+
+.chip {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 4px 10px;
+  border: 2px solid var(--ink);
+  background: transparent;
+  line-height: 1.4;
+}
+.chip.filled {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+/* video break */
+#vb {
+  border-bottom: 4px solid var(--ink);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 60vh;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  #vb {
+    grid-template-columns: 1fr;
+  }
+}
+#vb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#vbt {
+  background: var(--orange);
+  padding: clamp(2.5rem, 6vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 4px solid var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  #vbt {
+    border-left: none;
+    border-top: 4px solid var(--ink);
+  }
+}
+
+.ghost {
+  position: absolute;
+  font-family: var(--display);
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 900;
+  opacity: 0.06;
+  white-space: nowrap;
+  pointer-events: none;
+  top: -1rem;
+  right: -2rem;
+  user-select: none;
+}
+
+#vbt h2 {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1;
+  text-wrap: balance;
+  position: relative;
+  z-index: 1;
+}
+#vbt h2 .stroke {
+  -webkit-text-stroke: 3px var(--ink);
+  color: transparent;
+}
+#vbt p {
+  margin-top: 1.2rem;
+  font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+  line-height: 1.8;
+  max-width: 40ch;
+  position: relative;
+  z-index: 1;
+  opacity: 0.8;
+}
+.ichip {
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* gallery */
+#gs {
+  background: var(--ink);
+  border-bottom: 4px solid var(--ink);
+  padding: 2.5rem clamp(2rem, 5vw, 4rem);
+  overflow: hidden;
+}
+.sl {
+  font-family: var(--display);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 1.2rem;
+}
+.row {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--yellow) transparent;
+}
+.row::-webkit-scrollbar {
+  height: 4px;
+}
+.row::-webkit-scrollbar-thumb {
+  background: var(--yellow);
+}
+.gi {
+  flex-shrink: 0;
+  border: 3px solid var(--yellow);
+  box-shadow: 5px 5px 0 var(--yellow);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+.gi:hover {
+  transform: translateY(-6px);
+  box-shadow: 5px 11px 0 var(--yellow);
+}
+.gi img {
+  display: block;
+  height: 200px;
+  width: auto;
+  min-width: 150px;
+  object-fit: cover;
+}
+.gc {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--yellow);
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 8px;
+  transform: translateY(100%);
+  transition: transform 0.2s;
+}
+.gi:hover .gc {
+  transform: none;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.d1 {
+  transition-delay: 0.15s;
+}
+.d3 {
+  transition-delay: 0.3s;
+}
+</style>
+<script>const cur = document.getElementById("cur");
+document.addEventListener("mousemove", (e) => {
+  cur.style.left = e.clientX + "px";
+  cur.style.top = e.clientY + "px";
+});
+document.addEventListener("mousedown", () =>
+  document.body.classList.add("click")
+);
+document.addEventListener("mouseup", () =>
+  document.body.classList.remove("click")
+);
+
+const IMGS = [
+  "dcec6266-f8c7-4810-ac99-695dc8b9e773",
+  "b97b4bf8-3ac3-43d9-a99b-2115cf564507",
+  "c1d6e80c-58e2-4166-abf6-af034bcf0e89",
+  "1a81f94d-b922-4694-826e-f7088a8ec791",
+  "6a03af1b-2ba3-4d04-adb7-5d3e04da147d",
+  "ae033a50-d2e2-40af-b60f-efc748cf44a6",
+  "6f8eeac7-36ad-4b90-b676-5fde27111268",
+  "7ded77c0-a780-4f28-8a4e-6c5069b60e5a",
+  "54f55f00-9438-4129-afad-bb2dd12c1904"
+];
+const row = document.getElementById("row");
+IMGS.forEach((id) => {
+  const item = document.createElement("div");
+  item.className = "gi";
+  item.innerHTML = `<img src="https://cdn.cosmos.so/${id}?format=jpeg" alt="" loading="lazy"><div class="gc">// cosmos.so</div>`;
+  row.appendChild(item);
+});
+
+const io = new IntersectionObserver(
+  (es) =>
+    es.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        io.unobserve(e.target);
+      }
+    }),
+  { threshold: 0.1 }
+);
+document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>
+</body>
+</html>

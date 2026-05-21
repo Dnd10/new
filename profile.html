@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | Digits n Data</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dnd-auth.css">
+<link rel="icon" type="image/png" href="logoo.png">
+</head>
+<body>
+  <main class="dnd-auth-screen">
+    <section class="dnd-auth-screen__card">
+      <a class="dnd-auth-brand" href="index.html" aria-label="Digits n Data home">
+        <img src="logoo.png" alt="" aria-hidden="true">
+        <span>Digits <strong>n Data</strong></span>
+      </a>
+      <h1>Your<br>Profile</h1>
+      <p id="profileIntro">Loading your Digits n Data profile...</p>
+      <form class="dnd-auth-form" id="profileForm">
+        <label>
+          Email
+          <input id="email" type="email" disabled>
+        </label>
+        <label>
+          Display Name
+          <input id="displayName" type="text" autocomplete="name" placeholder="Your name">
+        </label>
+        <div class="dnd-auth-actions">
+          <button type="submit">Save Profile</button>
+          <a href="index.html">Back Home</a>
+          <button type="button" id="logoutBtn">Logout</button>
+        </div>
+        <p class="dnd-auth-message" id="profileMessage"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    const email = document.getElementById("email");
+    const displayName = document.getElementById("displayName");
+    const message = document.getElementById("profileMessage");
+    const intro = document.getElementById("profileIntro");
+    let currentUser = null;
+
+    async function loadProfile() {
+      if (!window.DNDAuth.isConfigured()) {
+        window.DNDAuth.showGate("Connect Supabase", "Add your Supabase URL and anon key in supabase-config.js first.", '<a href="index.html">Back Home</a>');
+        return;
+      }
+
+      const session = await window.DNDAuth.getSession();
+      if (!session?.user) {
+        window.location.href = "login.html?next=profile.html";
+        return;
+      }
+
+      currentUser = session.user;
+      await window.DNDAuth.ensureProfile(currentUser);
+      email.value = currentUser.email || "";
+
+      const db = window.DNDAuth.client();
+      const { data } = await db.from("profiles").select("display_name").eq("id", currentUser.id).single();
+      displayName.value = data?.display_name || currentUser.user_metadata?.display_name || "";
+      intro.textContent = "Your profile is stored in Supabase and tied to your email login.";
+    }
+
+    document.getElementById("profileForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!currentUser) return;
+      message.textContent = "Saving...";
+      const db = window.DNDAuth.client();
+      const { error } = await db.from("profiles").upsert({
+        id: currentUser.id,
+        email: currentUser.email,
+        display_name: displayName.value.trim(),
+        updated_at: new Date().toISOString()
+      }, { onConflict: "id" });
+      message.textContent = error ? error.message : "Profile saved.";
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", window.DNDAuth.signOut);
+    loadProfile();
+  </script>
+</body>
+</html>

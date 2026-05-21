@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digits n Data | Data Practice Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700;800&family=Unbounded:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dnd-auth.css">
+<link rel="icon" type="image/png" href="logoo.png">
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="Digits n Data home">
+      <img class="brand__logo" src="logoo.png" alt="" aria-hidden="true">
+      <span class="brand__text">Digits <span>n Data</span></span>
+    </a>
+    <nav class="topnav" aria-label="Primary navigation">
+      <a href="#tracks">Tracks</a>
+      <a href="#companies">Companies</a>
+      <a href="#upgrade">Upskill</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__media" aria-hidden="true">
+        <video autoplay muted loop playsinline>
+          <source src="https://cdn.cosmos.so/3cbfd7b9-f988-469c-a838-694489832809.mp4" type="video/mp4">
+        </video>
+        <div class="hero__ticker">
+          <span>SQL</span>
+          <span>Python</span>
+          <span>Statistics</span>
+          <span>Analytics</span>
+          <span>ML</span>
+        </div>
+      </div>
+      <div class="hero__copy">
+        <div class="ghost">DATA</div>
+        <span class="chip chip--filled">practice like the interview is real</span>
+        <h1 id="heroTitle">Digits<br><span>n Data</span></h1>
+        <p>
+          A high-signal practice hub for data aspirants becoming data professionals,
+          and for working data professionals sharpening SQL, analytics, statistics,
+          product sense, and interview execution.
+        </p>
+        <div class="hero__actions">
+          <a class="button button--dark" href="#companies">Start Company SQL</a>
+          <a class="button" href="#tracks">Choose a Track</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Platform highlights">
+      <div class="stat">
+        <strong>90</strong>
+        <span>SQL questions live</span>
+      </div>
+      <div class="stat">
+        <strong>9</strong>
+        <span>company-style sets</span>
+      </div>
+      <div class="stat">
+        <strong>5</strong>
+        <span>career tracks</span>
+      </div>
+      <div class="stat">
+        <strong>1</strong>
+        <span>daily practice loop</span>
+      </div>
+    </section>
+
+    <section class="tracks" id="tracks">
+      <div class="section-head">
+        <span class="chip">build the stack</span>
+        <h2>Practice paths for data careers</h2>
+      </div>
+      <div class="track-grid">
+        <article class="track track--yellow">
+          <span class="track__num">01</span>
+          <h3>SQL Interview Core</h3>
+          <p>Group by, joins, windows, retention, funnels, ranking, and business metrics.</p>
+          <a href="#companies">Open SQL sets</a>
+        </article>
+        <article class="track track--cyan">
+          <span class="track__num">02</span>
+          <h3>Analytics Thinking</h3>
+          <p>Turn raw tables into decisions: define metrics, spot tradeoffs, and explain results.</p>
+          <a href="#upgrade">See method</a>
+        </article>
+        <article class="track track--pink">
+          <span class="track__num">03</span>
+          <h3>Statistics Muscle</h3>
+          <p>Distributions, experiments, confidence, bias, variance, and practical A/B testing.</p>
+          <a href="#upgrade">Train next</a>
+        </article>
+        <article class="track track--green">
+          <span class="track__num">04</span>
+          <h3>Product Data Sense</h3>
+          <p>Frame ambiguous business questions and choose metrics that survive scrutiny.</p>
+          <a href="#upgrade">Practice framing</a>
+        </article>
+        <article class="track track--orange">
+          <span class="track__num">05</span>
+          <h3>Professional Upskill</h3>
+          <p>Keep your edge with harder prompts, cleaner communication, and interview-ready reps.</p>
+          <a href="#upgrade">Upskill plan</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="companies" id="companies">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="chip chip--filled">company practice</span>
+          <h2>SQL sets inspired by real data work</h2>
+        </div>
+        <p>Pick a company, open question one, and move through the set like a focused interview sprint.</p>
+      </div>
+
+      <div class="company-grid">
+        <a class="company company--linkedin" href="linkedin.html">
+          <span class="logo logo--linkedin">in</span>
+          <strong>LinkedIn</strong>
+          <small>jobs, skills, duplicates</small>
+        </a>
+        <a class="company company--amazon" href="amazon.html">
+          <span class="logo logo--amazon">
+            <svg viewBox="0 0 140 72" role="img" aria-hidden="true" focusable="false">
+              <text x="60" y="45" text-anchor="middle" fill="currentColor" font-family="Arial Black, Helvetica, Arial, sans-serif" font-size="66" font-weight="900">a</text>
+              <path d="M18 54c10 8.2 23.2 12.4 39.6 12.4 11.8 0 22.5-2.1 32.1-6.3 3.3-1.4 6.1-3 8.5-4.7" fill="none" stroke="#ff9900" stroke-width="7" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <strong>Amazon</strong>
+          <small>orders, revenue, products</small>
+        </a>
+        <a class="company company--netflix" href="netflix.html">
+          <span class="logo logo--netflix">
+            <svg viewBox="0 0 72 72" role="img" aria-hidden="true" focusable="false">
+              <rect x="21" y="12" width="10" height="48" fill="#b1060f"/>
+              <rect x="41" y="12" width="10" height="48" fill="#b1060f"/>
+              <polygon points="31,12 41,12 51,60 41,60" fill="#e50914"/>
+            </svg>
+          </span>
+          <strong>Netflix</strong>
+          <small>watch time, churn, ratings</small>
+        </a>
+        <a class="company company--google" href="google.html">
+          <span class="logo logo--google"><span class="google-g">G</span></span>
+          <strong>Google</strong>
+          <small>maps, pay, search, drive</small>
+        </a>
+        <a class="company company--uber" href="uber.html">
+          <span class="logo logo--uber">Uber</span>
+          <strong>Uber</strong>
+          <small>trips, drivers, pricing</small>
+        </a>
+        <a class="company company--airbnb" href="airbnb.html">
+          <span class="logo logo--airbnb">
+            <svg viewBox="0 0 72 72" role="img" aria-hidden="true" focusable="false">
+              <path d="M36 19c-5.6 8.2-13.5 20.6-13.5 29.4 0 6.1 4.1 10.1 9.1 10.1 3.3 0 6.1-1.7 8.2-4.8 2.1 3.1 4.9 4.8 8.2 4.8 5 0 9.1-4 9.1-10.1C57.1 39.6 41.6 27.2 36 19Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="36" cy="42" r="6" fill="none" stroke="currentColor" stroke-width="5"/>
+            </svg>
+          </span>
+          <strong>Airbnb</strong>
+          <small>hosts, bookings, stays</small>
+        </a>
+        <a class="company company--microsoft" href="microsoft.html">
+          <span class="logo logo--microsoft">
+            <svg viewBox="0 0 72 72" role="img" aria-hidden="true" focusable="false">
+              <rect x="14" y="14" width="20" height="20" fill="#f25022"/>
+              <rect x="38" y="14" width="20" height="20" fill="#7fba00"/>
+              <rect x="14" y="38" width="20" height="20" fill="#00a4ef"/>
+              <rect x="38" y="38" width="20" height="20" fill="#ffb900"/>
+            </svg>
+          </span>
+          <strong>Microsoft</strong>
+          <small>teams, azure, licenses</small>
+        </a>
+        <a class="company company--spotify" href="spotify.html">
+          <span class="logo logo--spotify">
+            <svg viewBox="0 0 72 72" role="img" aria-hidden="true" focusable="false">
+              <circle cx="36" cy="36" r="26" fill="#1db954"/>
+              <path d="M22 29c10.5-3.1 23.2-2 32 3.2" fill="none" stroke="#0a0a0a" stroke-width="5" stroke-linecap="round"/>
+              <path d="M24 38c8.3-2.3 18.6-1.4 25.2 2.6" fill="none" stroke="#0a0a0a" stroke-width="4" stroke-linecap="round"/>
+              <path d="M26 46c6.2-1.5 13.6-.9 18.6 2.1" fill="none" stroke="#0a0a0a" stroke-width="3.4" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <strong>Spotify</strong>
+          <small>streams, artists, users</small>
+        </a>
+        <a class="company company--meta" href="meta.html">
+          <span class="logo logo--meta">
+            <svg viewBox="0 0 90 60" role="img" aria-hidden="true" focusable="false">
+              <path d="M12 39c8-23 19-29 32 0 13-29 24-23 32 0 5 14-9 19-20 1-5-8-8-13-12-13s-7 5-12 13C21 58 7 53 12 39Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <strong>Meta</strong>
+          <small>posts, ads, engagement</small>
+        </a>
+      </div>
+    </section>
+
+    <section class="interlude" id="upgrade">
+      <div class="interlude__copy">
+        <div class="ghost">UPSKILL</div>
+        <span class="chip chip--filled">from practice to profession</span>
+        <h2>Become the person who can answer the question and explain why it matters.</h2>
+        <p>
+          The loop is simple: solve, compare, explain, repeat. Beginners build interview fluency.
+          Professionals sharpen the judgment that makes analysis useful in meetings, dashboards,
+          experiments, and product decisions.
+        </p>
+      </div>
+      <div class="method">
+        <div><strong>01</strong><span>Read the business question</span></div>
+        <div><strong>02</strong><span>Find the grain of the data</span></div>
+        <div><strong>03</strong><span>Write the query cleanly</span></div>
+        <div><strong>04</strong><span>Explain the decision impact</span></div>
+      </div>
+    </section>
+
+    <section class="gallery" aria-label="Learning themes">
+      <p class="gallery__label">data disciplines to keep in motion</p>
+      <div class="gallery__row" id="galleryRow">
+        <article><strong>SQL</strong><span>joins, windows, metrics</span></article>
+        <article><strong>Stats</strong><span>experiments and uncertainty</span></article>
+        <article><strong>Python</strong><span>cleaning, modeling, automation</span></article>
+        <article><strong>BI</strong><span>dashboards and storytelling</span></article>
+        <article><strong>Product</strong><span>funnels, retention, growth</span></article>
+        <article><strong>ML</strong><span>features, evaluation, tradeoffs</span></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__brand">Digits<br><span>n Data</span></div>
+    <p>For data aspirants becoming data professionals, and data professionals getting sharper.</p>
+  </footer>
+
+  <style>
+    :root {
+      --yellow: #ffe600;
+      --green: #0ae448;
+      --pink: #ff2d78;
+      --lavender: #9d95ff;
+      --orange: #ff6b35;
+      --cyan: #00bae2;
+      --ink: #0a0a0a;
+      --paper: #fff7d6;
+      --canvas: #fafaf5;
+      --border: 4px solid var(--ink);
+      --border-thick: 6px solid var(--ink);
+      --mono: "JetBrains Mono", monospace;
+      --display: "Unbounded", sans-serif;
+      --stamp: "Bebas Neue", sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: var(--mono);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    a { color: inherit; text-decoration: none; cursor: none; }
+
+    .cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: multiply;
+      transition: width 0.16s, height 0.16s, background 0.16s;
+    }
+
+    .cursor-dot.is-big {
+      width: 52px;
+      height: 52px;
+      background: rgba(255, 230, 0, 0.5);
+    }
+
+    .scroll-progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 5px;
+      background: var(--pink);
+      transform: scaleX(0);
+      transform-origin: left;
+      z-index: 9998;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 14px clamp(18px, 4vw, 48px);
+      border-bottom: var(--border);
+      background: var(--yellow);
+    }
+
+    .brand,
+    .footer__brand {
+      font-family: var(--display);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.95;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: clamp(18px, 2.1vw, 28px);
+    }
+
+    .brand__logo {
+      width: clamp(58px, 6vw, 84px);
+      height: clamp(58px, 6vw, 84px);
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .brand__text {
+      display: inline-block;
+    }
+
+    .brand__text span,
+    .footer__brand span {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--ink);
+    }
+
+    .topnav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .topnav a,
+    .chip,
+    .button {
+      border: 2px solid var(--ink);
+      padding: 7px 10px;
+      font-size: clamp(10px, 1vw, 12px);
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: white;
+    }
+
+    .chip {
+      display: inline-block;
+      width: fit-content;
+    }
+
+    .chip--filled,
+    .button--dark {
+      background: var(--ink);
+      color: var(--yellow);
+    }
+
+    .button {
+      border: var(--border);
+      padding: 12px 15px;
+      transition: transform 0.16s, background 0.16s;
+    }
+
+    .button:hover,
+    .topnav a:hover {
+      transform: translate(-2px, -2px);
+      background: var(--green);
+      color: var(--ink);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      min-height: calc(100vh - 66px);
+      border-bottom: var(--border-thick);
+      background: var(--orange);
+    }
+
+    .hero__media {
+      position: relative;
+      overflow: hidden;
+      border-right: var(--border-thick);
+      min-height: 420px;
+      background: var(--ink);
+    }
+
+    .hero__media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: contrast(1.12) saturate(1.1);
+    }
+
+    .hero__ticker {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      gap: 10px;
+      overflow: hidden;
+      padding: 10px;
+      background: var(--yellow);
+      border-top: var(--border);
+    }
+
+    .hero__ticker span {
+      flex: 1;
+      min-width: 110px;
+      text-align: center;
+      border: 2px solid var(--ink);
+      padding: 6px 8px;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: white;
+    }
+
+    .hero__copy {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+      padding: clamp(32px, 6vw, 84px);
+      overflow: hidden;
+    }
+
+    .ghost {
+      position: absolute;
+      right: -4%;
+      top: 4%;
+      font-family: var(--stamp);
+      font-size: clamp(110px, 20vw, 280px);
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(10, 10, 10, 0.1);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    h1,
+    h2,
+    h3 {
+      position: relative;
+      z-index: 1;
+      font-family: var(--display);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: clamp(56px, 9vw, 132px);
+      line-height: 0.88;
+      max-width: 9ch;
+    }
+
+    h1 span,
+    .section-head h2 span {
+      color: transparent;
+      -webkit-text-stroke: clamp(2px, 0.35vw, 4px) var(--ink);
+    }
+
+    .hero__copy p {
+      position: relative;
+      z-index: 1;
+      max-width: 62ch;
+      font-size: clamp(14px, 1.25vw, 18px);
+      line-height: 1.75;
+      font-weight: 700;
+      border-top: var(--border);
+      padding-top: 18px;
+    }
+
+    .hero__actions {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-bottom: var(--border-thick);
+      background: var(--cyan);
+    }
+
+    .stat {
+      min-height: 190px;
+      padding: clamp(20px, 3vw, 38px);
+      border-right: var(--border-thick);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat strong {
+      font-family: var(--stamp);
+      font-size: clamp(60px, 9vw, 126px);
+      line-height: 0.8;
+    }
+
+    .stat span {
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+    }
+
+    .tracks,
+    .companies,
+    .interlude {
+      padding: clamp(32px, 6vw, 78px);
+      border-bottom: var(--border-thick);
+    }
+
+    .tracks { background: var(--paper); }
+    .companies { background: var(--lavender); }
+
+    .section-head {
+      display: grid;
+      gap: 18px;
+      margin-bottom: clamp(24px, 4vw, 46px);
+    }
+
+    .section-head--split {
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.55fr);
+      align-items: end;
+    }
+
+    .section-head h2 {
+      font-size: clamp(32px, 5.4vw, 84px);
+      line-height: 0.96;
+      max-width: 980px;
+    }
+
+    .section-head p {
+      font-weight: 700;
+      line-height: 1.7;
+      border-left: var(--border);
+      padding-left: 18px;
+    }
+
+    .track-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border: var(--border-thick);
+      background: white;
+    }
+
+    .track {
+      min-height: 360px;
+      padding: 22px;
+      border-right: var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .track:last-child { border-right: none; }
+    .track--yellow { background: var(--yellow); }
+    .track--cyan { background: var(--cyan); }
+    .track--pink { background: var(--pink); }
+    .track--green { background: var(--green); }
+    .track--orange { background: var(--orange); }
+
+    .track__num {
+      font-family: var(--stamp);
+      font-size: 58px;
+      line-height: 0.8;
+    }
+
+  .track h3 {
+  font-size: clamp(16px, 1.6vw, 24px);
+  line-height: 1.1;
+  word-break: break-word;
+}
+
+    .track p {
+      line-height: 1.65;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .track a {
+      border-top: var(--border);
+      padding-top: 12px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .company-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .company {
+      min-height: 210px;
+      border: var(--border-thick);
+      background: var(--yellow);
+      padding: 18px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: 1fr auto;
+      align-items: start;
+      gap: 16px;
+      box-shadow: 10px 10px 0 var(--ink);
+      transition: transform 0.16s, box-shadow 0.16s;
+    }
+
+    .company:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 14px 14px 0 var(--ink);
+    }
+
+    .company strong {
+      align-self: center;
+      font-family: var(--display);
+      font-size: clamp(22px, 3vw, 42px);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .company small {
+      grid-column: 1 / -1;
+      border-top: var(--border);
+      padding-top: 12px;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .company--linkedin { background: var(--cyan); }
+    .company--amazon { background: var(--yellow); }
+    .company--netflix { background: var(--pink); }
+    .company--google { background: white; }
+    .company--uber { background: var(--green); }
+    .company--airbnb { background: var(--orange); }
+    .company--microsoft { background: var(--paper); }
+    .company--spotify { background: var(--yellow); }
+    .company--meta { background: var(--lavender); }
+
+    .logo {
+      width: clamp(54px, 5.2vw, 76px);
+      aspect-ratio: 1;
+      border: var(--border);
+      display: grid;
+      place-items: center;
+      background: white;
+      box-shadow: 6px 6px 0 var(--ink);
+      overflow: hidden;
+      font-weight: 900;
+    }
+
+    .logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .logo--linkedin { background: #0a66c2; color: white; font-family: Arial, sans-serif; font-size: 42px; text-transform: lowercase; }
+    .logo--amazon { background: #111; color: #ff9900; }
+    .logo--netflix { background: #090909; padding: 6px; }
+    .logo--google { background: white; font-family: Arial, sans-serif; font-size: 50px; }
+    .google-g {
+      background: conic-gradient(from -20deg, #4285f4 0 24%, #34a853 24% 42%, #fbbc05 42% 62%, #ea4335 62% 78%, #4285f4 78% 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo--uber { background: #000; color: white; font-family: Arial, sans-serif; font-size: 22px; }
+    .logo--airbnb { background: #ff5a5f; color: white; padding: 7px; }
+    .logo--microsoft { background: white; padding: 8px; }
+    .logo--spotify { background: #0a0a0a; padding: 5px; }
+    .logo--meta { background: #0668e1; color: white; padding: 4px; }
+
+    .interlude {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
+      gap: 0;
+      padding: 0;
+      background: var(--orange);
+    }
+
+    .interlude__copy {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(36px, 6vw, 84px);
+      border-right: var(--border-thick);
+    }
+
+    .interlude__copy h2 {
+      margin-top: 20px;
+      font-size: clamp(30px, 4.7vw, 72px);
+      line-height: 1;
+      max-width: 900px;
+    }
+
+    .interlude__copy p {
+      margin-top: 18px;
+      max-width: 68ch;
+      line-height: 1.75;
+      font-weight: 700;
+      border-top: var(--border);
+      padding-top: 18px;
+    }
+
+    .method {
+      display: grid;
+      background: var(--ink);
+      color: var(--yellow);
+    }
+
+    .method div {
+      min-height: 150px;
+      padding: 24px;
+      border-bottom: 3px solid var(--yellow);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .method div:last-child { border-bottom: none; }
+
+    .method strong {
+      font-family: var(--stamp);
+      font-size: 60px;
+      line-height: 0.8;
+    }
+
+    .method span {
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      line-height: 1.5;
+    }
+
+    .gallery {
+      background: var(--ink);
+      color: var(--yellow);
+      padding: clamp(26px, 4vw, 50px);
+      overflow: hidden;
+    }
+
+    .gallery__label {
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .gallery__row {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding: 0 0 16px;
+      scrollbar-color: var(--yellow) transparent;
+    }
+
+    .gallery__row article {
+      flex: 0 0 clamp(210px, 25vw, 330px);
+      min-height: 190px;
+      border: 3px solid var(--yellow);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 6px 6px 0 var(--yellow);
+      background: #111;
+    }
+
+    .gallery__row strong {
+      font-family: var(--display);
+      font-size: clamp(28px, 4vw, 54px);
+      text-transform: uppercase;
+      line-height: 0.95;
+    }
+
+    .gallery__row span {
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      line-height: 1.5;
+      border-top: 2px solid var(--yellow);
+      padding-top: 12px;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding: clamp(28px, 4vw, 56px);
+      background: var(--pink);
+      border-top: var(--border-thick);
+    }
+
+    .footer__brand {
+      font-size: clamp(24px, 4vw, 52px);
+    }
+
+    .footer p {
+      max-width: 560px;
+      font-weight: 800;
+      line-height: 1.6;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 12px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 1100px) {
+      .hero,
+      .interlude,
+      .section-head--split {
+        grid-template-columns: 1fr;
+      }
+
+      .hero__media,
+      .interlude__copy {
+        border-right: none;
+        border-bottom: var(--border-thick);
+      }
+
+      .track-grid,
+      .company-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .track:nth-child(2n) { border-right: none; }
+      .track:nth-child(n + 3) { border-top: var(--border); }
+      .track:last-child {
+        grid-column: 1 / -1;
+        border-right: none;
+      }
+    }
+
+    @media (max-width: 700px) {
+      body,
+      a {
+        cursor: auto;
+      }
+
+      .cursor-dot { display: none; }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .topnav {
+        justify-content: flex-start;
+      }
+
+      h1 {
+        font-size: clamp(46px, 16vw, 76px);
+      }
+
+      .stats,
+      .track-grid,
+      .company-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat,
+      .track {
+        border-right: none;
+        border-bottom: var(--border);
+      }
+
+      .stat:last-child,
+      .track:last-child {
+        border-bottom: none;
+      }
+
+      .company {
+        min-height: 180px;
+        box-shadow: 7px 7px 0 var(--ink);
+      }
+
+      .section-head p {
+        border-left: none;
+        border-top: var(--border);
+        padding-left: 0;
+        padding-top: 14px;
+      }
+    }
+  </style>
+
+  <script>
+    const dot = document.getElementById("cursorDot");
+
+    document.addEventListener("mousemove", (event) => {
+      dot.style.left = event.clientX + "px";
+      dot.style.top = event.clientY + "px";
+    });
+
+    document.querySelectorAll("a, .company, .track").forEach((element) => {
+      element.addEventListener("mouseenter", () => dot.classList.add("is-big"));
+      element.addEventListener("mouseleave", () => dot.classList.remove("is-big"));
+    });
+
+    window.addEventListener("scroll", () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? window.scrollY / max : 0;
+      document.getElementById("scrollProgress").style.transform = `scaleX(${progress})`;
+    }, { passive: true });
+
+    const revealItems = document.querySelectorAll(".section-head, .track, .company, .interlude__copy, .method div, .gallery__row article");
+    revealItems.forEach((item) => item.classList.add("reveal"));
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12 });
+
+    revealItems.forEach((item) => observer.observe(item));
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js"></script>
+  <script>window.DNDAuth && window.DNDAuth.init({ protect: false });</script></body>
+</html>
